@@ -2,6 +2,8 @@ import { useStore } from '../store/useStore'
 import { useState } from 'react'
 import { Download, Upload, Trash2, AlertTriangle, Database, Palette, Cloud, CheckCircle2, XCircle, Loader2, Sliders } from 'lucide-react'
 import { testJudge0Connection } from '../utils/judge0'
+import CustomSelect from '../components/common/CustomSelect'
+
 
 export default function Settings(){
   const prefs = useStore(s => s.prefs)
@@ -166,16 +168,20 @@ export default function Settings(){
           <div className="space-y-4">
             <div className="flex items-center justify-between p-3.5 rounded-xl bg-zinc-50 dark:bg-white/[0.02] border border-zinc-200/80 dark:border-white/[0.06]">
               <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">Color Theme</span>
-              <select
+              <CustomSelect
                 value={prefs.theme}
-                onChange={e => setPrefs({ theme: e.target.value })}
-                className="px-3 py-1.5 text-xs bg-white dark:bg-black/40 border border-zinc-200 dark:border-white/[0.1] rounded-lg text-zinc-800 dark:text-white font-medium focus:outline-none"
-              >
-                <option value="dark">Dark Mode (Linear obsidian)</option>
-                <option value="light">Light Mode (Clean studio)</option>
-                <option value="system">System (Follow OS)</option>
-              </select>
+                onChange={val => setPrefs({ theme: val })}
+                size="sm"
+                align="right"
+                menuClassName="min-w-[190px]"
+                options={[
+                  { value: 'dark', label: 'Dark Mode (Linear obsidian)' },
+                  { value: 'light', label: 'Light Mode (Clean studio)' },
+                  { value: 'system', label: 'System (Follow OS)' },
+                ]}
+              />
             </div>
+
 
             <div className="p-3.5 rounded-xl bg-zinc-50 dark:bg-white/[0.02] border border-zinc-200/80 dark:border-white/[0.06] space-y-2">
               <div className="flex justify-between items-center text-xs">

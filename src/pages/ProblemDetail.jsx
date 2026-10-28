@@ -3,11 +3,12 @@ import { questions } from '../data/questions'
 import { useStore } from '../store/useStore'
 import { useEffect, useState, useMemo, useRef } from 'react'
 import Editor from '@monaco-editor/react'
+import CustomSelect from '../components/common/CustomSelect'
+
 import {
   Bookmark,
   CheckCircle2,
   ChevronLeft,
-  ChevronDown,
   RotateCcw,
   Play,
   Send,
@@ -290,19 +291,19 @@ export default function ProblemDetail() {
 
         {/* Center: Language Selector */}
         <div className="flex items-center gap-2">
-          <div className="relative">
-            <select
-              value={language}
-              onChange={e => setLanguage(e.target.value)}
-              className="appearance-none pl-3 pr-7 py-1.5 bg-zinc-100 dark:bg-white/[0.06] border border-zinc-200 dark:border-white/[0.1] rounded-lg text-xs font-semibold text-zinc-900 dark:text-white focus:outline-none focus:border-[#0f62fe] transition"
-            >
-              <option value="javascript">JavaScript (Local Engine)</option>
-              <option value="python">Python 3 (Judge0 Cloud)</option>
-              <option value="java">Java 13 (Judge0 Cloud)</option>
-              <option value="cpp">C++ 17 (Judge0 Cloud)</option>
-            </select>
-            <ChevronDown size={13} className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-zinc-400" />
-          </div>
+          <CustomSelect
+            value={language}
+            onChange={setLanguage}
+            size="sm"
+            menuClassName="min-w-[220px]"
+            options={[
+              { value: 'javascript', label: 'JavaScript', badge: 'Sandbox' },
+              { value: 'python', label: 'Python 3', badge: 'Cloud CE' },
+              { value: 'java', label: 'Java 13', badge: 'Cloud CE' },
+              { value: 'cpp', label: 'C++ 17', badge: 'Cloud CE' },
+            ]}
+          />
+
 
           {isCloudLanguage ? (
             <span className="hidden xl:inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium bg-blue-500/10 text-blue-600 dark:text-[#38bdf8] border border-blue-500/20">

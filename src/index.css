@@ -87,3 +87,27 @@ body {
 .ambient-glow {
   animation: pulse-subtle 8s ease-in-out infinite;
 }
+
+/* Native Select & Option styling */
+select {
+  color-scheme: light dark;
+}
+.dark select {
+  color-scheme: dark;
+}
+
+select option,
+select optgroup {
+  background-color: #ffffff;
+  color: #18181b;
+  padding: 8px 12px;
+}
+
+.dark select option,
+.dark select optgroup,
+html.dark select option,
+html.dark select optgroup {
+  background-color: #121624;
+  color: #f4f4f5;
+}
+

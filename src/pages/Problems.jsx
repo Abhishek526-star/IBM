@@ -8,10 +8,11 @@ import {
   Circle,
   Clock,
   Bookmark,
-  ChevronDown,
   Filter,
   ArrowRight
 } from 'lucide-react'
+import CustomSelect from '../components/common/CustomSelect'
+
 
 function formatLastSeen(dateStr) {
   if (!dateStr) return 'Oct 2026'
@@ -192,7 +193,7 @@ export default function Problems() {
       </div>
 
       {/* Filter Toolbar Card */}
-      <div className="glass-card rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row items-stretch md:items-center gap-3">
+      <div className="glass-card rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row items-stretch md:items-center gap-3 relative z-30">
         {/* Search input */}
         <div className="relative flex-1">
           <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" />
@@ -208,47 +209,42 @@ export default function Problems() {
         {/* Dropdowns & Status Pills */}
         <div className="flex flex-wrap items-center gap-2">
           {/* Difficulty Dropdown */}
-          <div className="relative">
-            <select
-              value={filters.difficulty}
-              onChange={e => setFilters({ difficulty: e.target.value })}
-              className="appearance-none pl-3.5 pr-8 py-2.5 bg-zinc-100/90 dark:bg-white/[0.05] border border-zinc-200 dark:border-white/[0.08] rounded-xl text-xs text-zinc-800 dark:text-zinc-200 font-medium focus:outline-none focus:border-[#0f62fe] transition"
-            >
-              <option value="All">All Difficulties</option>
-              <option value="Easy">Easy</option>
-              <option value="Medium">Medium</option>
-              <option value="Hard">Hard</option>
-            </select>
-            <ChevronDown size={13} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400" />
-          </div>
+          <CustomSelect
+            value={filters.difficulty}
+            onChange={val => setFilters({ difficulty: val })}
+            options={[
+              { value: 'All', label: 'All Difficulties' },
+              { value: 'Easy', label: 'Easy' },
+              { value: 'Medium', label: 'Medium' },
+              { value: 'Hard', label: 'Hard' },
+            ]}
+          />
 
-          {/* Topics Dropdown */}
-          <div className="relative">
-            <select
-              value={filters.topic}
-              onChange={e => setFilters({ topic: e.target.value })}
-              className="appearance-none pl-3.5 pr-8 py-2.5 bg-zinc-100/90 dark:bg-white/[0.05] border border-zinc-200 dark:border-white/[0.08] rounded-xl text-xs text-zinc-800 dark:text-zinc-200 font-medium focus:outline-none focus:border-[#0f62fe] transition max-w-[140px] truncate"
-            >
-              {allTopics.map(t => (
-                <option key={t} value={t}>{t === 'All' ? 'All Topics' : t}</option>
-              ))}
-            </select>
-            <ChevronDown size={13} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400" />
-          </div>
+          {/* Topics Dropdown (with quick search) */}
+          <CustomSelect
+            value={filters.topic}
+            onChange={val => setFilters({ topic: val })}
+            options={allTopics.map(t => ({
+              value: t,
+              label: t === 'All' ? 'All Topics' : t,
+            }))}
+            searchable={true}
+            searchPlaceholder="Search topics..."
+            className="max-w-[160px]"
+            menuClassName="min-w-[200px]"
+          />
 
           {/* Sort By */}
-          <div className="relative">
-            <select
-              value={sortBy}
-              onChange={e => setSortBy(e.target.value)}
-              className="appearance-none pl-3.5 pr-8 py-2.5 bg-zinc-100/90 dark:bg-white/[0.05] border border-zinc-200 dark:border-white/[0.08] rounded-xl text-xs text-zinc-800 dark:text-zinc-200 font-medium focus:outline-none focus:border-[#0f62fe] transition"
-            >
-              <option value="recent">Latest Seen</option>
-              <option value="reports">Most Reported</option>
-              <option value="difficulty">Difficulty</option>
-            </select>
-            <ChevronDown size={13} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400" />
-          </div>
+          <CustomSelect
+            value={sortBy}
+            onChange={val => setSortBy(val)}
+            options={[
+              { value: 'recent', label: 'Latest Seen' },
+              { value: 'reports', label: 'Most Reported' },
+              { value: 'difficulty', label: 'Difficulty' },
+            ]}
+          />
+
 
           {/* Status Tabs */}
           <div className="flex bg-zinc-100 dark:bg-white/[0.05] p-1 rounded-xl border border-zinc-200/80 dark:border-white/[0.08]">
@@ -270,7 +266,7 @@ export default function Problems() {
       </div>
 
       {/* Problems Table / List */}
-      <div className="glass-card rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-white/[0.08]">
+      <div className="glass-card rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-white/[0.08] relative z-10">
         {/* Table Header */}
         <div className="hidden lg:grid grid-cols-[48px_1fr_160px_160px_180px_100px_48px] gap-4 px-6 py-3.5 bg-zinc-50/80 dark:bg-white/[0.02] border-b border-zinc-200/80 dark:border-white/[0.08] text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
           <span>Status</span>
